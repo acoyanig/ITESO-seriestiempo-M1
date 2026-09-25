@@ -6,4 +6,9 @@ title: "Proyecto M1"
 
 ```{r}
 library(fpp3)
+mi_serie <- aus_retail |> filter(`Series ID` == "A3349397X")
+print(mi_serie)
+tail(mi_serie)
 ```
+
+
