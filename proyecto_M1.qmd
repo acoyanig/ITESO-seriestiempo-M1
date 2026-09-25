@@ -18,9 +18,16 @@ tail(mi_serie)
 mi_serie |> autoplot(Turnover)
 ```
 
+We can notice three things about the series:
+
+1. An upward trend.
+2. A peak every year. Reading the data, it seems to be on December. It might have seasonality.
+3. The peaks become wider as time goes by. That means the series is heteroskedastic.
 
 ## Seasonal plot
 
 ```{r}
 mi_serie |> gg_season(Turnover)
 ```
+
+This plot confirms not only that our series has yearly seasonality with a peak on December, it also reveals a minor peak on July.
