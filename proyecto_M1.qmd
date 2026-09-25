@@ -3,6 +3,7 @@ title: "Proyecto M1"
 ---
 
 ## Setup
+<!-- PROTIP: en vez de picarle al botón de Preview, usar quarto preview <filename> --no-browser, sin el --no-watch-inputs -->
 
 ```{r}
 library(fpp3)
@@ -11,4 +12,15 @@ print(mi_serie)
 tail(mi_serie)
 ```
 
+## Plot of turnover
 
+```{r}
+mi_serie |> autoplot(Turnover)
+```
+
+
+## Seasonal plot
+
+```{r}
+mi_serie |> gg_season(Turnover)
+```
