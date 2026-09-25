@@ -1,0 +1,9 @@
+---
+title: "Proyecto M1"
+---
+
+## Setup
+
+```{r}
+library(fpp3)
+```
