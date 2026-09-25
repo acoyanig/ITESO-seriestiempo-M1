@@ -1,14 +1,11 @@
-# [Nombre del equipo] — Proyecto Módulo [N]
+# [Equipo 1] — Proyecto Módulo [1]
 
-Repo de equipo para el proyecto del Módulo [N] del curso de Forecasting de
-Series de Tiempo (ITESO).
+Repo de equipo para el proyecto del Módulo [1] del curso de Series de Tiempo del ITESO, Otoño 2026.
 
 ## Integrantes
 
-- Nombre 1
-- Nombre 2
-- Nombre 3
-- Nombre 4
+- Acoyani Garrido Sandoval
+- Israel Rivera Guzmán
 
 ## Qué incluye este repo
 
