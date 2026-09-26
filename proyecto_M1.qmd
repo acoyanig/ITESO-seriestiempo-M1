@@ -3,7 +3,7 @@ title: "Proyecto M1"
 ---
 
 ## Setup
-<!-- PROTIP: en vez de picarle al botón de Preview, usar quarto preview <filename> --no-browser, sin el --no-watch-inputs -->
+<!-- PROTIP: en vez de picarle al botón de Preview, usar "quarto preview <filename> --no-browser", sin el --no-watch-inputs -->
 
 ```{r}
 library(fpp3)
@@ -30,4 +30,25 @@ We can notice three things about the series:
 mi_serie |> gg_season(Turnover)
 ```
 
-This plot confirms not only that our series has yearly seasonality with a peak on December, it also reveals a minor peak on July.
+This plot confirms not only that our series has yearly seasonality with a peak on December, it also reveals a minor peak on June.
+
+## Subseries
+
+```{r}
+mi_serie |> gg_subseries(Turnover)
+```
+
+This plot shows that December is the month with the highest average.
+
+## Autocorrelation
+
+```{r}
+mi_serie |> ACF(Turnover, lag_max=48) |> autoplot()
+```
+
+## Result of EDA
+
+- The series **has a trend** (increasing).
+- The series **is seasonal yearly** (the autocorrelation function peaks every 12 time units [months]).
+- The series **shows a minor seasonal peak on June**.
+- The series is **heteroskedastic** (the seasonal peaks are increasingly sharper as time goes by).
