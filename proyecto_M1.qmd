@@ -61,6 +61,24 @@ We can see in this autocorrelation function (ACF) plot that **the series has a t
 
 ## Box-Cox transform
 
+We start by calculating our optimal lambda
+
 ```{r}
-mi_serie |> features(Turnover, features=guerrero)
+mi_serie |> features(Turnover, features=guerrero) |> pull(lambda_guerrero) -> lambda_optima
+```
+
+## Box-Cox transform
+
+Since we calculated our lambda via Guerrero method, we can trust that this lambda will be the best one that stabilizes the growth trend and the amplitude of the seasonal peaks:
+
+```{r}
+mi_serie |> autoplot(box_cox(Turnover, lambda_optima)) + labs(title="Household goods retail turnover in New South Wales, Australia; scaled with Box-Cox transform, with lambda found via Guerrero method", y=paste("Sales turnover, scaled with lambda =", lambda_optima))
+```
+
+## Box-Cox transform
+
+If we return to our vanilla series, we can notice how the vanilla series has a more exponential growth and how the amplitude of its seasonal peaks increases more as time goes by.
+
+```{r}
+mi_serie |> autoplot(Turnover) + labs(title="Household goods retail turnover in New South Wales, Australia", y="Sales turnover (millions of Australian dollars)")
 ```
