@@ -69,10 +69,10 @@ mi_serie |> features(Turnover, features=guerrero) |> pull(lambda_guerrero) -> la
 
 ## Box-Cox transform
 
-Since we calculated our lambda via Guerrero method, we can trust that this lambda will be the best one that stabilizes the growth trend and the amplitude of the seasonal peaks:
+Since we calculated our lambda via Guerrero method, we can see how this lambda will be the best one that stabilizes the amplitude of the seasonal peaks:
 
 ```{r}
-mi_serie |> autoplot(box_cox(Turnover, lambda_optima)) + labs(title="Household goods retail turnover in New South Wales, Australia; scaled with Box-Cox transform, with lambda found via Guerrero method", y=paste("Sales turnover, scaled with lambda =", lambda_optima))
+mi_serie |> autoplot(box_cox(Turnover, lambda_optima)) + labs(title="Household goods retail turnover in New South Wales, Australia; scaled with Box-Cox transform, with lambda found via Guerrero method", y=paste("Sales turnover, scaled with lambda =", round(lambda_optima, 4)))
 ```
 
 ## Box-Cox transform
@@ -82,3 +82,29 @@ If we return to our vanilla series, we can notice how the vanilla series has a m
 ```{r}
 mi_serie |> autoplot(Turnover) + labs(title="Household goods retail turnover in New South Wales, Australia", y="Sales turnover (millions of Australian dollars)")
 ```
+
+## STL
+
+STL splits the series additively into trend, seasonality and remainder.
+
+```{r}
+STL(box_cox(Turnover, lambda_optima)) -> especificacion_STL
+mi_serie |> model(especificacion_STL) |> components() |> autoplot()
+```
+
+## Data exploration
+
+The remainder shows a large peak in June 2000. What happened? This peak flags an anomaly, something that happened, because the remainder means patterns that cannot be explained as a result of trend or seasonality. From the remainder chart, we can tell the peak's amplitude is higher than 2; so we can find when it happened by filtering entries of the STL decomposition whose remainder is larger than 2. 
+
+We can also see a large dip in sales following that spike, which shows in the remainder chart as having an amplitude lower than -1. Therefore, we search for it too.
+
+```{r}
+mi_serie |> model(especificacion_STL) |> components() |> filter(remainder > 2)
+mi_serie |> model(especificacion_STL) |> components() |> filter(remainder < -1)
+```
+
+The peak happened in June 2000. We already know June is the end of fiscal year in Australia. Therefore, what happened on July 2000 that is related to taxation norms?
+
+A quick search turns up [an article from four professors of the Australia National University](https://press-files.anu.edu.au/downloads/press/p92201/pdf/article02.pdf), which says a major tax package went into effect in July 2000, which levied a 10% tax on most goods and services similar to Mexico's VAT (IVA), prompting a large peak in purchases before the tax was enacted followed by a large dip in purchases on July, which happened because many purchases that people planned to do on July were made in June.
+
+This little exercise shows how STL analysis can be used for data exploration.
