@@ -4,7 +4,7 @@ title: "Proyecto M1"
 
 ## About the series
 
-<!-- Descripción completa del dataset. Pistas: (NSW household goods retail turnover), (millions of AUD), range (Apr 1982–Dec 2018), number of observations (441) -->
+<!-- TODO: Descripción completa del dataset. Pistas: (NSW household goods retail turnover), (millions of AUD), range (Apr 1982–Dec 2018), number of observations (441) -->
 
 ## Setup
 <!-- PROTIP: en vez de picarle al botón de Preview, usar "quarto preview <filename> --no-browser", sin el --no-watch-inputs -->
@@ -19,42 +19,42 @@ tail(mi_serie)
 ## Plot of turnover
 
 ```{r}
-mi_serie |> autoplot(Turnover) + labs(title="Household good retail turnover in New South Wales, Australia", y="Sales turnover")
+mi_serie |> autoplot(Turnover) + labs(title="Household goods retail turnover in New South Wales, Australia", y="Sales turnover (millions of Australian dollars)")
 ```
 
 We can notice three things about the series:
 
 1. An upward trend.
 2. A peak every year. Reading the data, it seems to be on December. It might have seasonality.
-3. The amplitude of the peaks increases as time goes by. That means the series is heteroskedastic.
+3. The size of the seasonal swings increases as time goes by. That means the series is heteroskedastic.
 
 ## Seasonal plot
 
 ```{r}
-mi_serie |> gg_season(Turnover) + labs(title="Household good retail turnover in New South Wales, Australia (turnover per year)", y="Sales turnover each year")
+mi_serie |> gg_season(Turnover) + labs(title="Household goods retail turnover in New South Wales, Australia (turnover per year)", y="Sales turnover (millions of Australian dollars)")
 ```
 
-This plot confirms not only that our series has yearly seasonality with a peak on December, it also reveals a minor peak on June.
+This plot confirms not only that our series has yearly seasonality with a peak on December, it also reveals a minor peak on June (this could be due to accounting years in Australia customarily ending in June, which leads to seasonal purchases). <!-- TODO: poner bibliografía de esta hipótesis -->
 
 ## Subseries
 
 ```{r}
-mi_serie |> gg_subseries(Turnover) + labs(title="Household good retail turnover in New South Wales, Australia, grouped by month", y="Sales turnover")
+mi_serie |> gg_subseries(Turnover) + labs(title="Household goods retail turnover in New South Wales, Australia, grouped by month", y="Sales turnover (millions of Australian dollars)")
 ```
 
-This plot shows that December is the month with the highest average. December is also the month that rises more steeply than the other months. That means the series is **heteroskedastic** (the seasonal effect scales with time, making the series's variance variable).
+This plot shows that December is the month with the highest average. December is also the month that rises more steeply than the other months. That means the series is **heteroskedastic** (the seasonal effect scales with magnitude [multiplicative seasonality], making the series's variance non-constant).
 
 ## Autocorrelation
 
 ```{r}
-mi_serie |> ACF(Turnover, lag_max=48) |> autoplot() + labs(title="Autocorrelation of household good retail turnover in New South Wales, Australia", y="Value of autocorrelation function")
+mi_serie |> ACF(Turnover, lag_max=48) |> autoplot() + labs(title="Autocorrelation of household goods retail turnover in New South Wales, Australia", y="Value of autocorrelation function")
 ```
 
 We can see in this autocorrelation function (ACF) plot that **the series has a trend** (the ACF decreases slowly) and that **the series is seasonal and repeats every 12 months** (the ACF peaks every 12 months).
 
 ## Result of EDA
 
-- The series **has a trend** (increasing).
-- The series **is seasonal yearly** (the autocorrelation function peaks every 12 time units [months]).
+- The series **has a trend** (increasing as shown from the time-domain plot and the ACF).
+- The series **is seasonal yearly** (the autocorrelation function peaks every 12 time units [months], the subseries plot shows December as notoriously higher, the seasonal plot shows clear peaks in June and December).
 - The series **shows a minor seasonal peak on June**.
-- The series is **heteroskedastic** (the seasonal peaks have an increasing amplitude as time goes by).
+- The series is **heteroskedastic** (the seasonal peaks have an increasing amplitude as time goes by, shown in the time-domain plot as well as the subseries plot).
