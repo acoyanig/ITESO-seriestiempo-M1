@@ -58,3 +58,9 @@ We can see in this autocorrelation function (ACF) plot that **the series has a t
 - The series **is seasonal yearly** (the autocorrelation function peaks every 12 time units [months], the subseries plot shows December as notoriously higher, the seasonal plot shows clear peaks in June and December).
 - The series **shows a minor seasonal peak on June**.
 - The series is **heteroskedastic** (the seasonal peaks have an increasing amplitude as time goes by, shown in the time-domain plot as well as the subseries plot).
+
+## Box-Cox transform
+
+```{r}
+mi_serie |> features(Turnover, features=guerrero)
+```
